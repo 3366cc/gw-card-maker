@@ -35,7 +35,7 @@ summary{cursor:pointer;font-weight:650;margin-bottom:10px}
   main{display:block;margin:0;padding:0;max-width:none}
   main section{width:var(--print-slot-width)}
   .paper{width:var(--print-width);margin:0 auto;box-shadow:none;break-inside:avoid}
-  #sign{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  #sign{transform:scaleX(var(--print-scale-x,1));transform-origin:center;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 }
 </style>
 <style id="pageRules"></style>
@@ -326,7 +326,7 @@ byId('reset').addEventListener('click', () => {
 });
 const printSizes = {
   large: {orientation:'landscape', width:'266mm', slotWidth:'100%'},
-  medium: {orientation:'portrait', width:'168mm', slotWidth:'100%'},
+  medium: {orientation:'portrait', width:'168mm', slotWidth:'100%', scaleX:200/168},
   small: {orientation:'landscape', width:'127mm', slotWidth:'50%'}
 };
 function updateTemplate() {
@@ -350,10 +350,11 @@ templatePicker.addEventListener('change', () => {
   try { localStorage.setItem(templateKey, templatePicker.value); } catch {}
 });
 function updatePaper() {
-  const {orientation,width,slotWidth} = printSizes[byId('paperSize').value];
+  const {orientation,width,slotWidth,scaleX=1} = printSizes[byId('paperSize').value];
   byId('pageRules').textContent = '@page { size: letter ' + orientation + '; margin: 4mm; }';
   const style = document.documentElement.style;
   style.setProperty('--print-width',width);
+  style.setProperty('--print-scale-x',scaleX);
   style.setProperty('--print-slot-width',slotWidth);
 }
 byId('paperSize').addEventListener('change',updatePaper);
