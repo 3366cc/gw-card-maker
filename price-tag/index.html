@@ -29,7 +29,9 @@ header select{width:auto}
 details{margin-top:14px;border-top:1px solid #e1e9e3;padding-top:12px}
 summary{cursor:pointer;font-weight:650;margin-bottom:10px}
 @media(max-width:780px){main{grid-template-columns:1fr}}
+#cutLine{display:none}
 @media print{
+  #cutLine{display:inline}
   html,body{background:white;margin:0;padding:0}
   header,aside,.hint,#controls{display:none!important}
   main{display:block;margin:0;padding:0;max-width:none}
@@ -82,6 +84,7 @@ summary{cursor:pointer;font-weight:650;margin-bottom:10px}
       </g>
       <g id="art"></g>
       <g id="controls"><rect id="outline"/><rect id="handle" width="16" height="16" rx="3"/></g>
+      <rect id="cutLine" x="2" y="2" width="1040" height="809" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke" aria-hidden="true"/>
     </svg>
     </div>
     <p class="hint">点击文字或促销横线选中，拖动可移动，拖动选框右下角可调整大小。带自动字号的名称会按文字框宽度缩小。</p>
