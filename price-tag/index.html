@@ -265,6 +265,12 @@ for (const field of fields) {
   if (!isRule) {
     mark.setAttribute('font-family',field.font || serif);
     mark.setAttribute('font-weight',field.weight || 700);
+    if (field.id === 'chinese') {
+      mark.setAttribute('stroke',field.color);
+      mark.setAttribute('stroke-width','0.015em');
+      mark.setAttribute('stroke-linejoin','round');
+      mark.setAttribute('paint-order','stroke fill');
+    }
   }
   group.append(hit,mark);
   byId('art').append(group);
