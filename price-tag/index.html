@@ -265,9 +265,9 @@ for (const field of fields) {
   if (!isRule) {
     mark.setAttribute('font-family',field.font || serif);
     mark.setAttribute('font-weight',field.weight || 700);
-    if (field.id === 'chinese') {
+    if (field.id === 'chinese' || field.id === 'english') {
       mark.setAttribute('stroke',field.color);
-      mark.setAttribute('stroke-width','0.025em');
+      mark.setAttribute('stroke-width',field.id === 'chinese' ? '0.01em' : '0.018em');
       mark.setAttribute('stroke-linejoin','round');
       mark.setAttribute('paint-order','stroke fill');
     }
