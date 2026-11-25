@@ -37,7 +37,7 @@ summary{cursor:pointer;font-weight:650;margin-bottom:10px}
   main{display:block;margin:0;padding:0;max-width:none}
   main section{width:var(--print-slot-width)}
   .paper{width:var(--print-width);margin:0 auto;box-shadow:none;break-inside:avoid}
-  #sign{transform:scaleX(var(--print-scale-x,1));transform-origin:center;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  #sign{transform:scale(var(--print-scale-x,1),var(--print-scale-y,1));transform-origin:top center;print-color-adjust:exact;-webkit-print-color-adjust:exact}
 }
 </style>
 <style id="pageRules"></style>
@@ -109,13 +109,13 @@ summary{cursor:pointer;font-weight:650;margin-bottom:10px}
 <script>
 'use strict';
 const serif = '"Times New Roman","Liberation Serif",serif';
-const cjk = '"SimSun","Songti SC","Noto Serif CJK SC",serif';
+const cjk = '"Noto Sans CJK TC","Noto Sans TC","Microsoft JhengHei","PingFang TC","Microsoft YaHei",sans-serif';
 const dark = '#203446';
 const red = '#ff0000';
 const defaults = [
   {id:'sale', label:'促销标题', value:'SALE', x:19, y:49, size:75, width:225, color:'#fff', align:'center'},
   {id:'english', label:'英文名', value:'PRODUCT ENGLISH NAME', x:20, y:183, size:42, width:765, color:dark, auto:true},
-  {id:'chinese', label:'中文名', value:'产品中文名', x:20, y:228, size:46, width:1004, color:'#000', font:cjk, weight:700, auto:true},
+  {id:'chinese', label:'中文名', value:'产品中文名', x:20, y:228, size:46, width:1004, color:'#000', font:cjk, weight:900, auto:true},
   {id:'quantity', label:'促销件数', value:'2', x:40, y:365, size:120, width:192, color:red, align:'center'},
   {id:'offer', label:'促销文字', value:'FOR', x:40, y:554, size:80, width:192, color:red, align:'center'},
   {id:'currency', label:'货币符号', value:'$', x:276, y:318, size:181, width:98, color:red},
@@ -267,7 +267,7 @@ for (const field of fields) {
     mark.setAttribute('font-weight',field.weight || 700);
     if (field.id === 'chinese') {
       mark.setAttribute('stroke',field.color);
-      mark.setAttribute('stroke-width','0.015em');
+      mark.setAttribute('stroke-width','0.025em');
       mark.setAttribute('stroke-linejoin','round');
       mark.setAttribute('paint-order','stroke fill');
     }
@@ -335,8 +335,8 @@ byId('reset').addEventListener('click', () => {
 });
 const printSizes = {
   large: {orientation:'landscape', width:'266mm', slotWidth:'100%'},
-  medium: {orientation:'portrait', width:'168mm', slotWidth:'100%', scaleX:200/168},
-  small: {orientation:'landscape', width:'127mm', slotWidth:'50%'}
+  medium: {orientation:'portrait', width:'168mm', slotWidth:'100%', scaleX:200/168, scaleY:1.05},
+  small: {orientation:'landscape', width:'139.7mm', slotWidth:'139.7mm'}
 };
 function updateTemplate() {
   const template = templatePicker.value;
@@ -359,11 +359,12 @@ templatePicker.addEventListener('change', () => {
   try { localStorage.setItem(templateKey, templatePicker.value); } catch {}
 });
 function updatePaper() {
-  const {orientation,width,slotWidth,scaleX=1} = printSizes[byId('paperSize').value];
+  const {orientation,width,slotWidth,scaleX=1,scaleY=1} = printSizes[byId('paperSize').value];
   byId('pageRules').textContent = '@page { size: letter ' + orientation + '; margin: 4mm; }';
   const style = document.documentElement.style;
   style.setProperty('--print-width',width);
   style.setProperty('--print-scale-x',scaleX);
+  style.setProperty('--print-scale-y',scaleY);
   style.setProperty('--print-slot-width',slotWidth);
 }
 byId('paperSize').addEventListener('change',updatePaper);
